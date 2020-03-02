@@ -1,4 +1,8 @@
-Borika Ruby Gem for Payments
+[Unoffical] Borica Ruby Gem for Payments
+
+[Visit the gem at RubyGems.org](https://rubygems.org/gems/borika)
+
+[See Borica Bank webpage for Internet 3D Secure Payments](https://www.borica.bg/en/products-and-services/Sigurni-plashtaniya-v-Internet-3d-secure-za-kartodarjatelya)
 
 ### Getting started
 
