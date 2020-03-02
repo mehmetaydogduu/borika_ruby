@@ -26,26 +26,25 @@ module Borika
       'BGN'
     ]
 
-    attr_reader :order_id, :currency, :transaction_amount, :transaction_timestamp, :order_summary,:language
-    attr_reader :transaction_type, :one_time_ticket, :terminal_id, :protocol_version, :request_type
+    attr_reader :order_id, :currency, :amount, :time, :order_summary,:language
+    attr_reader :process_no, :one_time_ticket, :terminal_id, :protocol_version, :request_type
 
-    def initialize(
-                   order_id:,
-                   transaction_amount:,
-                   order_summary: 'Order',
-                   transaction_timestamp: Time.now,
+    def initialize(order_id,
+                   amount,
+                   order_summary: "Order #{order_id}",
+                   time: Time.now,
                    language: 'EN',
                    protocol_version: '1.0',
                    currency: 'EUR',
-                   transaction_type: 10,
+                   process_no: 10,
                    request_type: Borika.config.request_type,
                    terminal_id: Borika.config.borika_terminal_id,
                    one_time_ticket: nil)
-      @transaction_type = validate(transaction_type.to_i, of: TRANSACTION_TYPES)
-      @transaction_timestamp = transaction_timestamp
-      @transaction_amount = validate_cents(transaction_amount).to_s
+      @process_no = validate(process_no.to_i, of: TRANSACTION_TYPES)
+      @time = time
+      @amount = validate_cents(amount).to_s
       @terminal_id = terminal_id
-      @order_id = validate_presence(order_id).to_s
+      @order_id = validate_integer(order_id).to_s
       @order_summary = order_summary
       @language = language.to_s.upcase
       @protocol_version = validate(protocol_version.to_s, of: PROTOCOL_VERSIONS)
@@ -82,8 +81,15 @@ module Borika
       value
     end
 
+    def validate_integer(value)
+      if !value.is_a? Integer
+        raise ArgumentError, "Value must be an Integer, got: #{value.inspect}"
+      end
+      value
+    end
+
     def validate_presence(value)
-      if value.blank?
+      if !value.is_a? Numeric || value.blank?
         raise ArgumentError, "Expected not blank or nil value, got: #{value.inspect}"
       end
       value
@@ -101,9 +107,9 @@ module Borika
 
     def unsigned_content
       @unsigned_content ||= [
-        fill(transaction_type, 2),
-        fill(transaction_timestamp.strftime('%Y%m%d%H%M%S'), 14),
-        fill(transaction_amount, 12, char: '0', right: true),
+        fill(process_no, 2),
+        fill(time.strftime('%Y%m%d%H%M%S'), 14),
+        fill(amaount, 12, char: '0', right: true),
         fill(terminal_id, 8),
         fill(order_id, 15),
         fill(order_summary, 125),
