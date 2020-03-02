@@ -1,11 +1,17 @@
 Borika Ruby Gem for Payments
 
-## Getting started
+### Getting started
 
 Add the following line to your Gemfile:
 
 ```ruby
 gem 'borika'
+```
+
+or
+```cmd
+gem install borika
+require 'borika'
 ```
 
 Here is a possible configuration for development `config/environments/development.rb`:
@@ -33,6 +39,17 @@ amaount = rand(100..50000) # Integer with cents
 Borika::Request.new(order_id, amount).url
 ```
 
+You can also give more parameters, copy the default initializer belowe and modify it.
+```ruby
+Borika::Request.new(order_id, amount, order_summary: "Order #{order_id}",
+  time: Time.now, language: 'EN', protocol_version: '1.0', currency: 'EUR',
+  process_no: 10, request_type: Borika.config.request_type, terminal_id: Borika.config.borika_terminal_id,
+  one_time_ticket: nil).url
+```
+
+### Testing
+Not tested. Works with default parameters. Welcome to pull request.
+
 ### Contributors
 This repository originally inspired from
 [Genadi Samokovarov's Borica Gem](https://github.com/gsamokovarov/borica)
@@ -40,4 +57,4 @@ This repository originally inspired from
 
 ## License
 
-GPL Licence. Copyleft.
+GPL Licence. Copyleft. You can copy and modify this software.
