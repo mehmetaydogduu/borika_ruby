@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 require 'cgi'
 require 'base64'
+require 'openssl'
 module Borika
   
   class Request
@@ -44,6 +45,7 @@ module Borika
       @time = time
       @amount = validate_cents(amount).to_s
       @terminal_id = terminal_id
+      @request_type = request_type
       @order_id = validate_integer(order_id).to_s
       @order_summary = order_summary
       @language = language.to_s.upcase
@@ -52,7 +54,7 @@ module Borika
       @one_time_ticket = one_time_ticket
     end
 
-    def sign_data
+    def sign_data(unsigned_content)
       pkeyid = OpenSSL::PKey::RSA.new(Borika.config.private_key, Borika.config.private_key_password)
       signed_str = pkeyid.sign(OpenSSL::Digest::SHA1.new, unsigned_content)
     end
@@ -109,7 +111,7 @@ module Borika
       @unsigned_content ||= [
         fill(process_no, 2),
         fill(time.strftime('%Y%m%d%H%M%S'), 14),
-        fill(amaount, 12, char: '0', right: true),
+        fill(amount, 12, char: '0', right: true),
         fill(terminal_id, 8),
         fill(order_id, 15),
         fill(order_summary, 125),
