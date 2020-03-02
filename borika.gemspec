@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Mehmet Aydoğdu"]
   spec.email         = ["mhmt.dp@gmail.com"]
   spec.date          = "2020-03-02"
-  spec.summary       = "Borika Bank payment gem for Ruby."
-  spec.description   = "Borika gem for Ruby."
+  spec.summary       = "[Unoffical] Borica Ruby Gem for Internet Payments"
+  spec.description   = "Borika gem for Ruby. Borica Bank 3D Secure Internet Payments in Ruby"
   spec.homepage      = "https://github.com/fastengineer/borika_ruby"
   spec.license       = "GPL"
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|
