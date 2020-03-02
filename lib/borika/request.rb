@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-
+require 'cgi'
 require 'base64'
 module Borika
   
