@@ -8,13 +8,14 @@ module Borika
     attr_reader :hash
     def initialize(response)
       str = Base64.decode64 response
-      unless str.bytesize == 128
-        InvalidResponseSizeError.new "Borica Response has invalid size"
+      unless str.bytesize == 184
+        raise InvalidResponseSizeError.new "Borica Response has invalid size"
       end
-      signed_str = str.byteslice(56,128)
+      data = str.byteslice(0,56)
+      sign = str.byteslice(56,128)
       pkeyid = OpenSSL::PKey::RSA.new(Borika.config.private_key, Borika.config.private_key_password)
-      unless pkeyid.verify(OpenSSL::Digest::SHA1.new, signed_str, str)
-        # raise InvalidSignatureError.new "Borica Response RSA SHA1 Sign Verification failed"
+      unless pkeyid.verify(OpenSSL::Digest::SHA1.new, sign, data)
+        raise InvalidSignatureError.new "Borica Response RSA SHA1 Sign Verification failed"
       end
       # get data
       @hash = {
