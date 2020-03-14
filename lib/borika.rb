@@ -2,6 +2,7 @@
 
 require 'borika/version'
 require 'borika/request'
+require 'borika/response'
 require 'ostruct'
 
 module Borika

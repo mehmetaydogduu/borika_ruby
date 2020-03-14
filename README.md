@@ -51,6 +51,11 @@ Borika::Request.new(order_id, amount, order_summary: "Order #{order_id}",
   one_time_ticket: nil).url
 ```
 
+Lets parse the response comes from callback, in your controller:
+```ruby
+Borika::Response.new(params[:eBorica]) # returns hash
+```
+
 ### Testing
 Not tested. Works with default parameters. Welcome to pull request.
 
