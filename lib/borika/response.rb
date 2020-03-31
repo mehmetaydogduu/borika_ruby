@@ -13,9 +13,10 @@ module Borika
       end
       data = str.byteslice(0,56)
       sign = str.byteslice(56,128)
-      pkeyid = OpenSSL::PKey::RSA.new(Borika.config.private_key, Borika.config.private_key_password)
+      cert = OpenSSL::X509::Certificate.new(Borika.config.public_key)
+      pkeyid = cert.public_key
       unless pkeyid.verify(OpenSSL::Digest::SHA1.new, sign, data)
-        # raise InvalidSignatureError.new "Borica Response RSA SHA1 Sign Verification failed"
+        raise InvalidSignatureError.new "Borica Response RSA SHA1 Sign Verification failed"
       end
       # get data
       @hash = {

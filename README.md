@@ -24,6 +24,7 @@ Here is a possible configuration for development `config/environments/developmen
 Borika.configure  do |config|
   config.private_key = File.binread  "testPrivateKey.key"
   config.private_key_password = "Password"
+  config.public_key = File.binread "testPublicKey.cer"
   config.borika_terminal_id = "11111111" # Borika KEY 
   config.borika_url = "https://gatet.borica.bg/boreps/"
   config.request_type = "registerTransaction"
@@ -53,7 +54,7 @@ Borika::Request.new(order_id, amount, order_summary: "Order #{order_id}",
 
 Lets parse the response comes from callback, in your controller:
 ```ruby
-Borika::Response.new(params[:eBorica]) # returns hash
+Borika::Response.new(params[:eBorica]).hash # returns hash
 ```
 
 ### Testing
