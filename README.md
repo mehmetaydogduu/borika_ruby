@@ -1,6 +1,6 @@
 [Unoffical] Borica Ruby Gem for Payments
 
-![Visitor Count](https://profile-counter.glitch.me/borika_ruby/count.svg)
+Visitor Count: ![Visitor Count](https://profile-counter.glitch.me/borika_ruby/count.svg)
 
 [Visit the gem at RubyGems.org](https://rubygems.org/gems/borika)
 
